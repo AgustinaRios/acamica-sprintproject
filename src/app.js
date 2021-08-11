@@ -992,7 +992,7 @@ app.get("/users/:index/orders",isLogged,(req,res)=>{
 //editar estado de pedido
 /**
  * @swagger
- * /order/{orderId}/{index}/status:
+ * /orders/{orderId}/{index}/status:
  *  put:
  *    tags: [orders]
  *    summary: Cambiar estado del pedido.
@@ -1013,7 +1013,7 @@ app.get("/users/:index/orders",isLogged,(req,res)=>{
  *        description: Index del usuario logueado.
  *        schema:
  *          type: integer
- *          example: 3
+ *          example: 3 
  *      - in: body
  *        name: order
  *        description: pedido a modificar

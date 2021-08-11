@@ -1,5 +1,5 @@
 class User {
-    constructor(name,surname,userName,email,password,phone,adress,admin,logged){
+    constructor(name,surname,userName,email,password,phone,adress,admin){
         this.name=name;
         this.surname=surname;
         this.email=email;
@@ -8,13 +8,12 @@ class User {
         this.phone=phone;
         this.adress=adress;
         this.admin=admin;
-        this.logged=false;
+       
     }
 }
 
 const create = (user) => {users.push(user)};
-const remove = () => {}
-const edit = () => {}
+
 
 const getUser = (userName,password) => { 
     for (let i=0; i<users.length;i++){

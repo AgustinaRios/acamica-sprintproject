@@ -6,7 +6,6 @@ function isLogged(req, res, next) {
     index= parseInt(req.params.index);
     console.log(req.params);
     user = users[index];
-    //console.log(index);
     if (!user) {
         res.status(404).send({ resultado: `Usuario no logueado o inexistente` });
     } else {
@@ -16,7 +15,7 @@ function isLogged(req, res, next) {
     }
    
 
-}
+};
 
 function isAdmin(req, res, next) {
     admin = req.user.admin;
@@ -41,6 +40,6 @@ let order=orders[orderId];
  }
 
 
-}
+};
 
 module.exports={isLogged,isAdmin,isOrderPendiente};

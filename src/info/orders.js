@@ -52,7 +52,7 @@ const removeProduct = (orderId,product,price) => {
 
 
 
-const edit = () => {}
-const getProductById=(id)=>{}
 
-module.exports={Order,orders,addProduct,removeProduct,orderStatus,edit};
+
+
+module.exports={Order,orders,addProduct,removeProduct,orderStatus};

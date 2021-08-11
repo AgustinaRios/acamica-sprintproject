@@ -15,7 +15,7 @@ const create = (product) => { products.push(product)};
     
 const remove = (product) => {product.enabled=false}
 
-const edit = () => {}
+
 
   
 
@@ -50,4 +50,4 @@ let product5= new Product('Beer',250,4,20,true);
 products.push(product5);
 
 
-module.exports={Product,products,create,remove,edit,getProduct};
+module.exports={Product,products,create,remove,getProduct};
