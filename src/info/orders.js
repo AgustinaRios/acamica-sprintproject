@@ -29,7 +29,6 @@ let orders = []
 
 let orderStatus=["pendiente","confirmado","enPreparación","enviado","entregado"];
 
-const create = (order) => {orders.push(order)};
 
 const remove = (orderId) => { orders[orderId].enabled = false }
 

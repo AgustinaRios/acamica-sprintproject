@@ -17,12 +17,6 @@ const remove = (payment) => {
 };
 
 
-
-const edit = () => {}
-
-
-
-
 let payments=[];
 
 let payment1= new Payment('cash',true);

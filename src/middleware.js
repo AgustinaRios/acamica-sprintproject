@@ -1,5 +1,5 @@
 const { users } = require("./info/user");
-const { orders }= require("./info/orders");
+const { orders } = require("./info/orders");
 
 
 function isLogged(req, res, next) {
@@ -34,9 +34,10 @@ let orderId= req.params.orderId;
 let order=orders[orderId];
 
  if(order.status != "pendiente"){
-     res.status(404).send({resultado: false, mensaje:`no se puede modificar pedido en preparación`});
- } else{
-     next();
+ res.status(404).send({resultado: false, mensaje:`no se puede modificar pedido en preparación`});
+ } 
+ else{
+ next();
  }
 
 
