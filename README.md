@@ -10,11 +10,12 @@ Tecnologías implementadas:
 
 
 Instrucciones de instalación:
+
 1-Crear carpeta para su instalación
 
 2-Ingresar a la carpeta creada y desde la consola ejecutar: git clone https://github.com/AgustinaRios/acamica-sprintproject1.git
 
-3-Ingresar a la carpeta aca-sprint1-project.
+3-Ingresar a la carpeta acamica-sprintproject1.
 
 4-Ejecutar npm install.
 
