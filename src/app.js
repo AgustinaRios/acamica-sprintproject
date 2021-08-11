@@ -1052,9 +1052,6 @@ app.put("/order/:orderId/:index/status",isLogged,isAdmin,(req,res)=>{
     
     res.json(order);
   }
-
-
-
 });
 
 

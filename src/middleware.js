@@ -39,7 +39,6 @@ let order=orders[orderId];
  next();
  }
 
-
 };
 
 module.exports={isLogged,isAdmin,isOrderPendiente};
