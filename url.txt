@@ -1,4 +1,5 @@
 
-url del repositorio de github:
+url de repositorio git:
+
 
 https://github.com/AgustinaRios/acamica-sprintproject1.git
