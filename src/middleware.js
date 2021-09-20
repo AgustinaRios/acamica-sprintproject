@@ -1,5 +1,5 @@
-const { users } = require("./info/user");
-const { orders } = require("./info/orders");
+const { users } = require("./models/user");
+const { orders } = require("./models/orders");
 
 
 function isLogged(req, res, next) {
