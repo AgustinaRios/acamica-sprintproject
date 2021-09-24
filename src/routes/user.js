@@ -5,7 +5,7 @@ const orderModule = require ('../models/orders'); //Idem al punto de arriba pero
 const {isLogged,isAdmin} = require('../middleware') //importo las funciones que estan en middlesares/users
 router.use(express.json())
 
-//sign in de usuarios
+
 /**
  * @swagger
  * /signup:
@@ -125,6 +125,7 @@ router.use(express.json())
     res.status(200).send({resultado:`Usuario registrado correctamente`});
   
     });
+    
   
   /**
    * @swagger
@@ -189,7 +190,7 @@ router.use(express.json())
    *       200:
    *         description: Listado de usuarios
    */
-   router.get("/users/:index",isLogged,isAdmin,(req,res)=>{
+   router.get("/:index",isLogged,isAdmin,(req,res)=>{
   
       res.json(userModule.users);  
   

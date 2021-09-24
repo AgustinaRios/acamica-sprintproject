@@ -25,7 +25,7 @@ router.use(express.json())
  *       200:
  *         description: Listado de usuarios
  */
- router.get("/products/:index",isLogged,(req,res)=>{
+ router.get("/:index",isLogged,(req,res)=>{
 
     res.json(productModule.products).status(200).send({resultado:`listado de productos`});
 });
@@ -33,7 +33,7 @@ router.use(express.json())
 //obtener producto con id
 /**
 * @swagger
-* /product/{index}/{id}:
+* /products/{index}/{id}:
 *  get:
 *    tags: [products]
 *    summary: Obtener producto por índice.
@@ -67,7 +67,7 @@ router.use(express.json())
 *       description: Producto no existe
 *      
 */
-router.get("/product/:index/:id",isLogged,(req,res)=>{
+router.get("/:index/:id",isLogged,(req,res)=>{
 
 let id=req.params.id;
 for (let i=0;i<productModule.products.length;i++){
@@ -127,7 +127,7 @@ return res.json({resultado:`producto inválido`}).status(400);
  *       description: Producto no creado
  *      
  */
- router.post("/products/:index",isLogged,isAdmin,(req,res)=>{
+ router.post("/:index",isLogged,isAdmin,(req,res)=>{
   
     let name=req.body.name;
     let price=req.body.price;
@@ -190,7 +190,7 @@ return res.json({resultado:`producto inválido`}).status(400);
  *       description: No se ha podido eliminar el producto
  *      
  */
- router.delete("/products/:index/:id",isLogged,isAdmin,(req,res)=>{
+ router.delete("/:index/:id",isLogged,isAdmin,(req,res)=>{
     let id=req.params.id;
     for (let i=0;i<productModule.products.length;i++){
         if(id==productModule.products[i].id){
@@ -252,7 +252,7 @@ return res.json({resultado:`producto inválido`}).status(400);
  *       description: Producto no actualizado
  *      
  */
- router.put("/products/:index/:id",isLogged,isAdmin,(req,res)=>{
+ router.put("/:index/:id",isLogged,isAdmin,(req,res)=>{
   
     let id=req.params.id;
     for (let i=0;i<productModule.products.length;i++){

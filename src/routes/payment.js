@@ -25,7 +25,7 @@ router.use(express.json())
  *       200:
  *         description: Listado de medios de pago
  */
- router.get("/paymentMethods/:index",isLogged,isAdmin,(req,res)=>{
+ router.get("/:index",isLogged,isAdmin,(req,res)=>{
     res.json(paymentModule.payments);
 });
 
@@ -67,7 +67,7 @@ router.use(express.json())
  *       description: Método de pago no creado
  *      
  */
- router.post("/paymentMethods/:index",isLogged,isAdmin,(req,res)=>{
+ router.post("/:index",isLogged,isAdmin,(req,res)=>{
    
     let name=req.body.name;
     let _enabled=true;
@@ -122,7 +122,7 @@ router.use(express.json())
  *       description: No se ha podido eliminar el método de pago
  *      
  */
- router.delete("/paymentMethods/:index",isLogged,isAdmin,(req,res)=>{
+ router.delete("/:index",isLogged,isAdmin,(req,res)=>{
 
     let name=req.body.name;
     for (let i=0;i<paymentModule.payments.length;i++){

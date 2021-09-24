@@ -53,7 +53,7 @@ router.use(express.json())
  *       description: No se pudo generar pedido 
  *      
  */
- router.post("/orders/:index",isLogged,(req,res)=>{
+ router.post("/:index",isLogged,(req,res)=>{
       
     let userId= req.params.index;
     let payment=req.body.payment;
@@ -91,7 +91,7 @@ router.use(express.json())
  *       200:
  *         description: Listado de pedidos
  */
- router.get("/orders/:index",isLogged,isAdmin,(req,res)=>{
+ router.get("/:index",isLogged,isAdmin,(req,res)=>{
     
     res.json(orderModule.orders);   
 });
@@ -152,7 +152,7 @@ router.use(express.json())
  *      
  */
 
- router.put("/orders/:orderId/products/:productId/:index",isLogged,isOrderPendiente,(req,res)=>{
+ router.put("/:orderId/products/:productId/:index",isLogged,isOrderPendiente,(req,res)=>{
  
     let orderId= req.params.orderId;
     let productId=req.params.productId;
@@ -228,7 +228,7 @@ router.use(express.json())
  *       description: Pedido no modificado
  *      
  */
- router.delete("/orders/:orderId/products/:productId/:index",isLogged,isOrderPendiente,(req,res)=>{
+ router.delete("/:orderId/products/:productId/:index",isLogged,isOrderPendiente,(req,res)=>{
     let orderId= req.params.orderId;
     let productId=req.params.productId;
   
@@ -292,7 +292,7 @@ router.use(express.json())
  *       description: Pedido no confirmado
  *      
  */
- router.put("/orders/:orderId/:index/confirmed",isLogged,(req,res)=>{
+ router.put("/:orderId/:index/confirmed",isLogged,(req,res)=>{
        
     let orderId = req.params.orderId
   
@@ -311,7 +311,7 @@ router.use(express.json())
 //historial de pedidos de usuario
 /**
  * @swagger
- * /users/{index}/orders:
+ * /orders/{index}/user:
  *  get:
  *    tags: [users]    
  *    summary: Historial de pedidos de usuario
@@ -342,7 +342,7 @@ router.use(express.json())
  *       400:
  *         description: No existen pedidos del usuario indicado
  */
- router.get("/users/:index/orders",isLogged,(req,res)=>{
+ router.get("/:index/user",isLogged,(req,res)=>{
    
     let userId= req.params.index
     let ordersUser=orderModule.orders.filter( o => (o.userId==userId));
@@ -407,7 +407,7 @@ router.use(express.json())
  *       description: Estado del pedido no modificado
  *      
  */
- router.put("/order/:orderId/:index/status",isLogged,isAdmin,(req,res)=>{
+ router.put("/:orderId/:index/status",isLogged,isAdmin,(req,res)=>{
 
     let orderId= req.params.orderId;
     let order= orderModule.orders[orderId];

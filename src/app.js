@@ -11,7 +11,12 @@ const swaggerOptions = {
         version: '1.0.0'
       }
     },
-    apis: ['./src/app.js'],
+    apis: ['./src/app.js', 
+    
+    './src/routes/user.js', 
+    './src/routes/product.js',
+    './src/routes/orders.js',
+    './src/routes/payment.js',],
     tags: [
       {
           name: 'users',
@@ -37,12 +42,6 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 
-/*const userModule = require('./models/user');
-const productModule=require('./models/product');
-const paymentModule=require('./models/payment');
-const orderModule=require('./models/orders');
-const{isLogged,isAdmin, isOrderPendiente}=require('./middleware');*/
-
   app.use('/api-docs',
    swaggerUI.serve,
    swaggerUI.setup(swaggerDocs));
@@ -64,3 +63,4 @@ const{isLogged,isAdmin, isOrderPendiente}=require('./middleware');*/
   app.use('/products',routerProducts);
   app.use('/paymentMethods',routerPaymentMethods);
   app.use('/orders',routerOrders)
+
