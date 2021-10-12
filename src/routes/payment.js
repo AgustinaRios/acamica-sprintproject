@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const paymentModule = require('../models/payment'); 
 const orderModule = require ('../models/orders'); 
-const {isLogged,isAdmin} = require('../middleware'); 
+const {isLogged,isAdmin} = require('../middleware');
+const controller = require('../controllers/payment') 
 router.use(express.json())
 
 //Obtener lista de medios de pago
@@ -25,9 +26,7 @@ router.use(express.json())
  *       200:
  *         description: Listado de medios de pago
  */
- router.get("/:index",isLogged,isAdmin,(req,res)=>{
-    res.json(paymentModule.payments);
-});
+ router.get("/:index",controller.List);
 
 
 //Agregar métodos de pago
@@ -67,9 +66,9 @@ router.use(express.json())
  *       description: Método de pago no creado
  *      
  */
- router.post("/:index",isLogged,isAdmin,(req,res)=>{
+ router.post("/",controller.Add);
    
-    let name=req.body.name;
+    /*let name=req.body.name;
     let _enabled=true;
 
       if(typeof name!="string"||name==""){
@@ -82,13 +81,13 @@ router.use(express.json())
 
       res.json(payment).status(200).send({resultado:`Metodo de pago agregado`});
 
-});
+});*/
 
 
 //borrado lógico de método de pago
 /**
  * @swagger
- * /paymentMethods/{index}:
+ * /paymentMethods/{id}:
  *  delete:
  *    tags: [payment]
  *    summary: Eliminación de método de pago.
@@ -122,9 +121,9 @@ router.use(express.json())
  *       description: No se ha podido eliminar el método de pago
  *      
  */
- router.delete("/:index",isLogged,isAdmin,(req,res)=>{
+ router.delete("/:id",controller.Delete)/*isLogged,isAdmin
 
-    let name=req.body.name;
+    /*let name=req.body.name;
     for (let i=0;i<paymentModule.payments.length;i++){
       if(name==paymentModule.payments[i].name){
         let payment=paymentModule.payments[i]
@@ -133,7 +132,7 @@ router.use(express.json())
       }
     
       }   
-  });
+  });*/
 
 
 module.exports = router;  

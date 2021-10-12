@@ -18,7 +18,7 @@ User.init({
     type: DataTypes.STRING,
     allowNull: false
   },
-  username: {
+  userName: {
     type: DataTypes.STRING,
     allowNull: false
   },
@@ -27,7 +27,7 @@ User.init({
     allowNull: false
   },
   phone: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false
   },
   adress: {
@@ -36,8 +36,17 @@ User.init({
   },
   admin: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
+    allowNull: false,
+    defaultValue: false
   },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: sequelize.literal('NOW()')
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: sequelize.literal('NOW()')
+  }
 }, {
   // Other model options go here
   sequelize, // We need to pass the connection instance

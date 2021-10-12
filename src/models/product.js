@@ -16,6 +16,14 @@ Product.init({
   enabled: {
     type: DataTypes.BOOLEAN,
     allowNull: false
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: sequelize.literal('NOW()')
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: sequelize.literal('NOW()')
   }
 }, {
   // Other model options go here

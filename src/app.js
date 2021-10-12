@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
-const swaggerJsDoc = require('swagger-jsdoc');
-
+const jwt = require('jsonwebtoken')
 const database = require('./database/db');
+const helmet = require('helmet');
+const association = require('./models/associations')
+const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 const swaggerOptions = {
     swaggerDefinition: {
@@ -46,10 +48,14 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
    swaggerUI.serve,
    swaggerUI.setup(swaggerDocs));
 
-   
+  
+   app.use(helmet({
+    contentSecurityPolicy: true,
+  })); 
+
   app.use( express.json() );
 
-  app.listen(5000, () => console.log("listening on 5000"));
+  app.listen(process.env.PORT, () => console.log("listening on"+" "+ process.env.PORT));
 
 
 

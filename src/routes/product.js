@@ -3,7 +3,9 @@ const router = express.Router();
 const productModule = require('../models/product') //Cargo todo lo que tengo en /models/users en la variable userModule para poder utilizar todo aqui.
 const orderModule = require ('../models/orders'); //Idem al punto de arriba pero con orders
 const {isLogged,isAdmin} = require('../middleware') //importo las funciones que estan en middlesares/users
+const controller = require('../controllers/product')
 router.use(express.json())
+
 
  //listado de productos
 /**
@@ -25,10 +27,7 @@ router.use(express.json())
  *       200:
  *         description: Listado de usuarios
  */
- router.get("/:index",isLogged,(req,res)=>{
-
-    res.json(productModule.products).status(200).send({resultado:`listado de productos`});
-});
+ router.get("/",controller.List)
 
 //obtener producto con id
 /**
@@ -127,36 +126,19 @@ return res.json({resultado:`producto inválido`}).status(400);
  *       description: Producto no creado
  *      
  */
- router.post("/:index",isLogged,isAdmin,(req,res)=>{
+ router.post("/",controller.Add)
   
-    let name=req.body.name;
-    let price=req.body.price;
-    let id=req.body.id;
-   
+  
        
     
-    if (typeof name != "string"|| name==undefined){
-      return res.status(400).send({ resultado: `Nombre inválido`
-    })};
-
-    if (typeof price != "number"|| name==undefined){
-      return res.status(400).send({ resultado: `precio inválido`
-    })};
+   
     
     
     
-    let product = new productModule.Product(name,price,id);
-      productModule.create(product);
-
-
-      res.json(product);
-});
-
-
 //borrado lógico de producto
 /**
  * @swagger
- * /products/{index}/{id}:
+ * /products/{id}:
  *  delete:
  *    tags: [products]
  *    summary: Eliminación producto.
@@ -190,18 +172,8 @@ return res.json({resultado:`producto inválido`}).status(400);
  *       description: No se ha podido eliminar el producto
  *      
  */
- router.delete("/:index/:id",isLogged,isAdmin,(req,res)=>{
-    let id=req.params.id;
-    for (let i=0;i<productModule.products.length;i++){
-        if(id==productModule.products[i].id){
-          let product=productModule.products[i]
-          productModule.remove(product);
-          res.json(product).status(200).send({resultado:`producto inhabilitado para la venta correctamente`});
-        }
-      
-    }   
-    
-    });
+ router.delete("/:id",controller.Delete)
+ 
 
 //editar productos con código
 /**
