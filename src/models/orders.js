@@ -9,13 +9,17 @@ Order.init({
     type: DataTypes.STRING,
     allowNull: false
   },
+  payment: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   enabled: {
-    type: DataTypes.BOOLEAN
-    
+    type: DataTypes.BOOLEAN,
+    defaultValue: true
   },
   amount: {
-    type: DataTypes.INTEGER
-    
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   },
   createdAt: {
     type: DataTypes.DATE,

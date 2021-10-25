@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const productModule = require('../models/product') //Cargo todo lo que tengo en /models/users en la variable userModule para poder utilizar todo aqui.
 const orderModule = require ('../models/orders'); //Idem al punto de arriba pero con orders
-const {isLogged,isAdmin} = require('../middleware') //importo las funciones que estan en middlesares/users
+const {authenticated} = require('../middleware') //importo las funciones que estan en middlesares/users
 const controller = require('../controllers/product')
 router.use(express.json())
 
@@ -27,7 +27,7 @@ router.use(express.json())
  *       200:
  *         description: Listado de usuarios
  */
- router.get("/",controller.List)
+ router.get("/",authenticated,controller.List)
 
 //obtener producto con id
 /**
@@ -66,7 +66,7 @@ router.use(express.json())
 *       description: Producto no existe
 *      
 */
-router.get("/:index/:id",isLogged,(req,res)=>{
+/*router.get("/:index/:id",isLogged,(req,res)=>{
 
 let id=req.params.id;
 for (let i=0;i<productModule.products.length;i++){
@@ -77,7 +77,7 @@ for (let i=0;i<productModule.products.length;i++){
 }
 return res.json({resultado:`producto inválido`}).status(400);
 
-});
+});*/
 
 //Agregado de productos 
 /**
@@ -224,7 +224,7 @@ return res.json({resultado:`producto inválido`}).status(400);
  *       description: Producto no actualizado
  *      
  */
- router.put("/:index/:id",isLogged,isAdmin,(req,res)=>{
+ /*router.put("/:index/:id",isLogged,isAdmin,(req,res)=>{
   
     let id=req.params.id;
     for (let i=0;i<productModule.products.length;i++){
@@ -236,7 +236,7 @@ return res.json({resultado:`producto inválido`}).status(400);
         res.json(product);
       }};
   
-  });
+  });*/
 
 
 module.exports = router;

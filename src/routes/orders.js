@@ -4,6 +4,7 @@ const paymentModule = require('../models/payment');
 const orderModule = require ('../models/orders');
 const userModule = require ('../models/user'); 
 const {isLogged,isAdmin,isOrderPendiente} = require('../middleware'); 
+const controller = require('../controllers/order') 
 router.use(express.json())
 
 //crear pedido
@@ -53,24 +54,9 @@ router.use(express.json())
  *       description: No se pudo generar pedido 
  *      
  */
- router.post("/:index",isLogged,(req,res)=>{
+ router.post("/",controller.post);
       
-    let userId= req.params.index;
-    let payment=req.body.payment;
-    let adress= req.body.adress;
-
-    if (!adress){adress=userModule.users[index].adress}
-
-    let order01= new orderModule.Order (userId,payment,adress);
-
-    orderModule.orders.push(order01);
    
-    
-    console.log(orderModule.orders)
-    res.json(order01);
-
-});
-
 //Listado de ordenes
 /**
  * @swagger
@@ -91,10 +77,10 @@ router.use(express.json())
  *       200:
  *         description: Listado de pedidos
  */
- router.get("/:index",isLogged,isAdmin,(req,res)=>{
+ /*router.get("/:index",isLogged,isAdmin,(req,res)=>{
     
     res.json(orderModule.orders);   
-});
+});*/
 
 //agregado de producto
 /**
@@ -152,7 +138,7 @@ router.use(express.json())
  *      
  */
 
- router.put("/:orderId/products/:productId/:index",isLogged,isOrderPendiente,(req,res)=>{
+ /*router.put("/:orderId/products/:productId/:index",isLogged,isOrderPendiente,(req,res)=>{
  
     let orderId= req.params.orderId;
     let productId=req.params.productId;
@@ -171,7 +157,7 @@ router.use(express.json())
   
   
     res.json({resultado:`producto agregado correctamente`});
-  });
+  });*/
 
 //eliminar producto de pedido
 /**
@@ -228,7 +214,7 @@ router.use(express.json())
  *       description: Pedido no modificado
  *      
  */
- router.delete("/:orderId/products/:productId/:index",isLogged,isOrderPendiente,(req,res)=>{
+ /*router.delete("/:orderId/products/:productId/:index",isLogged,isOrderPendiente,(req,res)=>{
     let orderId= req.params.orderId;
     let productId=req.params.productId;
   
@@ -246,7 +232,7 @@ router.use(express.json())
   
   
       res.json({resultado:`producto eliminado correctamente`});
-  });
+  });*/
   
 //confirmación de orden por parte del usuario
 /**
@@ -292,7 +278,7 @@ router.use(express.json())
  *       description: Pedido no confirmado
  *      
  */
- router.put("/:orderId/:index/confirmed",isLogged,(req,res)=>{
+ /*router.put("/:orderId/:index/confirmed",isLogged,(req,res)=>{
        
     let orderId = req.params.orderId
   
@@ -306,7 +292,7 @@ router.use(express.json())
       res.json(order);
     }
    
-  });
+  });*/
   
 //historial de pedidos de usuario
 /**
@@ -342,7 +328,7 @@ router.use(express.json())
  *       400:
  *         description: No existen pedidos del usuario indicado
  */
- router.get("/:index/user",isLogged,(req,res)=>{
+/* router.get("/:index/user",isLogged,(req,res)=>{
    
     let userId= req.params.index
     let ordersUser=orderModule.orders.filter( o => (o.userId==userId));
@@ -356,7 +342,7 @@ router.use(express.json())
     
  
    
- });
+ });*/
  
 //editar estado de pedido
 /**
@@ -407,7 +393,7 @@ router.use(express.json())
  *       description: Estado del pedido no modificado
  *      
  */
- router.put("/:orderId/:index/status",isLogged,isAdmin,(req,res)=>{
+ /*router.put("/:orderId/:index/status",isLogged,isAdmin,(req,res)=>{
 
     let orderId= req.params.orderId;
     let order= orderModule.orders[orderId];
@@ -421,7 +407,7 @@ router.use(express.json())
       
       res.json(order);
     }
-  });
+  });*/
 
   module.exports = router;
    

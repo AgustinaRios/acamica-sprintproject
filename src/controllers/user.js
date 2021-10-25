@@ -1,6 +1,7 @@
 const sequelize = require ('../database/db')
 const jwt = require("jsonwebtoken");
 const users = require('../models/user')
+require('dotenv').config();
 
 exports.signin = function signin(req, res, next) {
     try {
