@@ -50,3 +50,21 @@ exports.List = async function  (req, res) {
     res.status(500).send({ status: "Error interno" });
   }
 }
+
+
+exports.Update = async function (req,res,next){
+  try {
+      cadena = `UPDATE products set name = '${req.body.name}', price = ${req.body.price}  WHERE id = ${req.params.id} `
+     
+      console.log(cadena);
+      const resultado = await sequelize.query(cadena, { type: sequelize.QueryTypes.UPDATE });
+      console.log(resultado)
+      res.json(resultado);
+  }
+  catch (err) {
+      console.log(err.message);
+      res.status(500).json({ status: 'Error interno', texto: err.message });
+  };
+
+
+};

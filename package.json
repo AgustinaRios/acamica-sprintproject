@@ -4,11 +4,12 @@
   "description": "Mi primera API documentada-Srint Project Nro 1-Acamica-Desarrollo Web Back End",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "author": "María Agustina Ríos Velázquez",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "helmet": "^4.6.0",

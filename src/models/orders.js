@@ -9,10 +9,7 @@ Order.init({
     type: DataTypes.STRING,
     allowNull: false
   },
-  payment: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
+  
   enabled: {
     type: DataTypes.BOOLEAN,
     defaultValue: true
@@ -21,6 +18,10 @@ Order.init({
     type: DataTypes.INTEGER,
     defaultValue: 0
   },
+  status: {
+    type: DataTypes.STRING,
+    defaultValue: "pendiente"
+  },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: sequelize.literal('NOW()')
@@ -28,7 +29,16 @@ Order.init({
   updatedAt: {
     type: DataTypes.DATE,
     defaultValue: sequelize.literal('NOW()')
-  }
+  },
+  UserId: {
+    type: DataTypes.INTEGER,
+    defaultValue: 1
+  },
+  
+  PaymentId: {
+    type: DataTypes.INTEGER,
+    defaultValue: 1
+  },
 }, {
   // Other model options go here
   sequelize, // We need to pass the connection instance

@@ -1,6 +1,7 @@
 const sequelize = require ('../database/db')
 const jwt = require("jsonwebtoken");
-const users = require('../models/user')
+const users = require('../models/user');
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 exports.signin = function signin(req, res, next) {
@@ -37,8 +38,17 @@ exports.signin = function signin(req, res, next) {
             VALUES('${req.body.name}','${req.body.surname}','${req.body.email}','${req.body.userName}','${req.body.password}','${req.body.phone}',
             '${req.body.adress}')`;
       console.log(req.body, cadena);
-      const resultado = await sequelize.query(cadena, { type: sequelize.QueryTypes.INSERT });
-      res.json(resultado);
+     const email = req.body.email
+      
+     const usuario = await users.findOne({where:{email:email}})
+     if(usuario){
+       res.status(409).send({status:'email  duplicado'})
+     } 
+     else{
+        const resultado = await sequelize.query(cadena, { type: sequelize.QueryTypes.INSERT });
+     res.json(resultado);}
+     
+      
   }
   catch (err) {
       console.log(err.message);

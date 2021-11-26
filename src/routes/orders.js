@@ -54,7 +54,7 @@ router.use(express.json())
  *       description: No se pudo generar pedido 
  *      
  */
- router.post("/",controller.post);
+ router.post("/",controller.Add);
       
    
 //Listado de ordenes
@@ -138,26 +138,7 @@ router.use(express.json())
  *      
  */
 
- /*router.put("/:orderId/products/:productId/:index",isLogged,isOrderPendiente,(req,res)=>{
- 
-    let orderId= req.params.orderId;
-    let productId=req.params.productId;
-  
-    let product=productModule.products[productId];
-    let order=orderModule.orders[orderId];
-  
-    if (typeof order == "undefined")
-      res.json({error:`orden no existe`});
-  
-    if (typeof product == "undefined")
-      res.json({error:`producto no existe`});
-  
-  
-    orderModule.addProduct(orderId,product,product.price);
-  
-  
-    res.json({resultado:`producto agregado correctamente`});
-  });*/
+ router.put("/:orderId/:productId",controller.AddProduct)
 
 //eliminar producto de pedido
 /**
@@ -214,26 +195,9 @@ router.use(express.json())
  *       description: Pedido no modificado
  *      
  */
- /*router.delete("/:orderId/products/:productId/:index",isLogged,isOrderPendiente,(req,res)=>{
-    let orderId= req.params.orderId;
-    let productId=req.params.productId;
+ router.delete("/:productId",controller.DeleteProduct);
   
-    let product=productModule.products[productId];
-    let order=orderModule.orders[orderId];
-  
-    if (typeof order == "undefined")
-      res.json({error:`orden no existe`});
-  
-    if (typeof product == "undefined")
-      res.json({error:`producto no existe`});
-  
-  
-     orderModule.removeProduct(orderId,product,product.price);
-  
-  
-      res.json({resultado:`producto eliminado correctamente`});
-  });*/
-  
+ 
 //confirmación de orden por parte del usuario
 /**
  * @swagger
@@ -278,21 +242,7 @@ router.use(express.json())
  *       description: Pedido no confirmado
  *      
  */
- /*router.put("/:orderId/:index/confirmed",isLogged,(req,res)=>{
-       
-    let orderId = req.params.orderId
-  
-    let order=orderModule.orders[orderId];
-  
-    if (typeof order==undefined){
-      res.json({error:`orden no existe`})
-    }
-    else{
-      order.status="confirmado";
-      res.json(order);
-    }
-   
-  });*/
+ router.put("/:orderId",controller.UpdateStatus)
   
 //historial de pedidos de usuario
 /**
@@ -328,21 +278,8 @@ router.use(express.json())
  *       400:
  *         description: No existen pedidos del usuario indicado
  */
-/* router.get("/:index/user",isLogged,(req,res)=>{
+ router.get("/:userId",controller.List)
    
-    let userId= req.params.index
-    let ordersUser=orderModule.orders.filter( o => (o.userId==userId));
- 
-    if (!ordersUser){
-      res.json({error:`No existen pedidos del usuario indicado`})
-     }
-   else{
-     res.json(ordersUser)
-   };
-    
- 
-   
- });*/
  
 //editar estado de pedido
 /**

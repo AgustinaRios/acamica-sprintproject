@@ -10,23 +10,16 @@ router.use(express.json())
  //listado de productos
 /**
  * @swagger
- * /products/{index}:
- *  get:
- *    tags: [products]    
- *    summary: Lista de productos
- *    description: Listado de productos 
- *    parameters:
- *       - in: path
- *         name: index
- *         required: true
- *         description: Index del usuario logueado.
- *         schema:
- *           type: integer
- *           example: 1
- *    responses:
- *       200:
- *         description: Listado de usuarios
- */
+ * /products:
+ *   get:
+ *     summary: Get all products (Only Admins).
+ *     tags: [products]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       "200":
+ *         description: All products
+ */ 
  router.get("/",authenticated,controller.List)
 
 //obtener producto con id
@@ -224,19 +217,7 @@ return res.json({resultado:`producto inválido`}).status(400);
  *       description: Producto no actualizado
  *      
  */
- /*router.put("/:index/:id",isLogged,isAdmin,(req,res)=>{
-  
-    let id=req.params.id;
-    for (let i=0;i<productModule.products.length;i++){
-      if(id==productModule.products[i].id){
-        let product=productModule.products[i]
-         product.price=req.body.price
-         product.name=req.body.name
-        
-        res.json(product);
-      }};
-  
-  });*/
+ router.put("/:id",controller.Update)
 
 
 module.exports = router;

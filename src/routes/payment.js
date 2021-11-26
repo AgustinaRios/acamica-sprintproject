@@ -68,21 +68,7 @@ router.use(express.json())
  */
  router.post("/",controller.Add);
    
-    /*let name=req.body.name;
-    let _enabled=true;
-
-      if(typeof name!="string"||name==""){
-        return res.status(400).send({ resultado: `Nombre inválido`});
-      }
-
-      let payment= new paymentModule.Payment (name,true);
-
-      paymentModule.create(payment);
-
-      res.json(payment).status(200).send({resultado:`Metodo de pago agregado`});
-
-});*/
-
+   
 
 //borrado lógico de método de pago
 /**
@@ -121,18 +107,10 @@ router.use(express.json())
  *       description: No se ha podido eliminar el método de pago
  *      
  */
- router.delete("/:id",controller.Delete)/*isLogged,isAdmin
+ router.delete("/:id",controller.Delete)
 
-    /*let name=req.body.name;
-    for (let i=0;i<paymentModule.payments.length;i++){
-      if(name==paymentModule.payments[i].name){
-        let payment=paymentModule.payments[i]
-        paymentModule.remove(payment);
-        res.json(payment);
-      }
-    
-      }   
-  });*/
 
+
+router.put("/:id",controller.Update)
 
 module.exports = router;  

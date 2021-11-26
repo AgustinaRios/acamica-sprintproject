@@ -8,11 +8,26 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 const swaggerOptions = {
     swaggerDefinition: {
+      openapi: '3.0.3',
       info: {
         title: 'Sprint Project 1- Mi primera API',
         version: '1.0.0'
       }
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     apis: ['./src/app.js', 
     
     './src/routes/user.js', 
