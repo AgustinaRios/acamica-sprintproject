@@ -1,11 +1,11 @@
 const assert = require('chai').assert;
 const fetch = require('node-fetch');
-const urlAPI = 'http://localhost:5000/users';
+const url = 'http://localhost:5000/users';
 
 describe("Test API Register", () => {
 
-    it("1.API Signup: Failed new user creation", async () => {
-      await fetch(urlAPI + "/signup", {
+    it("1.Signup: creación fallida de usuario", async () => {
+      await fetch(url + "/signup", {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -26,8 +26,8 @@ describe("Test API Register", () => {
       })
     });
   
-    it("2.API Signup : Correct creation of the user", async () => {
-      await fetch(urlAPI + "/signup", {
+    it("2.Signup : Creación exitosa de usuario", async () => {
+      await fetch(url + "/signup", {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -52,8 +52,8 @@ describe("Test API Register", () => {
       })
     });
   
-    it("3.API Signup : Existing email", async () => {
-      await fetch(urlAPI + "/signup", {
+    it("3.Signup : Email repetido", async () => {
+      await fetch(url + "/signup", {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
