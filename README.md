@@ -26,7 +26,7 @@ Instrucciones de instalación:
 Ingresa a la URL http://localhost:5000/api-docs
 
 
--sequelize dotenv mariadb jsonwebtoken helmet redis bcryptjs
+-sequelize dotenv mariadb jsonwebtoken helmet redis bcryptjs mocha chai node-fetch
 
 
 

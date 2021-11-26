@@ -45,9 +45,23 @@ exports.signin = function signin(req, res, next) {
        res.status(409).send({status:'email  duplicado'})
      } 
      else{
+       
         const resultado = await sequelize.query(cadena, { type: sequelize.QueryTypes.INSERT });
-     res.json(resultado);}
-     
+     ;}
+     jwt.sign(
+      req.body,
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN },
+      (err, token) => {
+        if (err) {
+          console.error("Error interno: " + err.message);
+          res.status(500).send({ status: "Error interno" });
+        } else {
+          req.token = token;
+          res.json({ status: "signup", token });
+        }
+      }
+    );
       
   }
   catch (err) {
@@ -55,6 +69,8 @@ exports.signin = function signin(req, res, next) {
       res.status(500).json({ status: 'Error' });
   }
 };
+
+
 
 exports.List = async function (req, res, next) {
   try {
