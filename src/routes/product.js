@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router(); 
-const {authenticated} = require('../middleware');
+const {authenticated,isAdmin} = require('../middleware');
 const controller = require('../controllers/product');
 router.use(express.json());
 
@@ -18,7 +18,7 @@ router.use(express.json());
  *       "200":
  *         description: Listado de productos
  */ 
- router.get("/",authenticated,controller.List)
+ router.get("/",authenticated,isAdmin,controller.List)
 
 //obtener producto con id
 /**

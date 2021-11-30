@@ -50,7 +50,7 @@ exports.AddProduct = async function (req, res) {
     return    
    }
    
-    // Actualización de cabecera de pedidos
+    
     dataOrder.amount = parseFloat(dataOrder.amount) + parseFloat(dataProduct.price);
     dataOrder.save();
 
@@ -65,7 +65,6 @@ exports.AddProduct = async function (req, res) {
   }
 };
 
-//TODO arreglar endpoint para poder eliminar un producto del pedido
 exports.DeleteProduct = async function (req, res, next) {
   try {
       cadena = `DELETE FROM ordersproducts WHERE productId = ${req.params.productId}`;

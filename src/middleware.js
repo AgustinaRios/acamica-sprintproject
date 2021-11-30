@@ -1,4 +1,4 @@
-const  user = require("./models/user");
+const user = require("./models/user");
 const { orders } = require("./models/orders");
 const  jwt= require("jsonwebtoken");
 require('dotenv').config();
@@ -30,25 +30,16 @@ exports.authenticated = function authenticated(req,res,next){
     };
 
 
-     exports.isAdmin = function isAdmin(req, res, next){
-      if ( !req.user ) {
-        return res.status(500).json({
-            success: false,
-            response: 'You want to verify the role without validating the token first'
-        });
-    }
+  exports.isAdmin = function isAdmin(req, res, next){
+      
+      if (req.authData.admin) {
+        next();
+      } else {
+        console.error("Acceso denegado: ");
+        res.status(403).send({ status: "Acceso denegado" });
+      }
+    };
 
-    const { isAdmin, firstName, lastName } = req.user;
-    
-    if ( !isAdmin ) {
-        return res.status(401).json({
-            success: false,
-            response: `${ firstName } ${ lastName } is not an administrator`
-        });
-    }
-
-    next();
-}
     
 
 
