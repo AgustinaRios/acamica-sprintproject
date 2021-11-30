@@ -3,7 +3,7 @@ const router = express.Router();
 const paymentModule = require('../models/payment'); 
 const orderModule = require ('../models/orders');
 const userModule = require ('../models/user'); 
-const {isLogged,isAdmin,isOrderPendiente} = require('../middleware'); 
+const {isLogged,isAdmin,isOrderPendiente, authenticated} = require('../middleware'); 
 const controller = require('../controllers/order') 
 router.use(express.json())
 
@@ -54,7 +54,7 @@ router.use(express.json())
  *       description: No se pudo generar pedido 
  *      
  */
- router.post("/",controller.Add);
+ router.post("/",authenticated,controller.Add);
       
    
 //Listado de ordenes
@@ -138,7 +138,7 @@ router.use(express.json())
  *      
  */
 
- router.put("/:orderId/:productId",controller.AddProduct)
+ router.put("/:orderId/:productId",authenticated,controller.AddProduct)
 
 //eliminar producto de pedido
 /**
@@ -195,7 +195,7 @@ router.use(express.json())
  *       description: Pedido no modificado
  *      
  */
- router.delete("/:productId",controller.DeleteProduct);
+ router.delete("/:productId",authenticated,controller.DeleteProduct);
   
  
 //confirmación de orden por parte del usuario
@@ -242,7 +242,7 @@ router.use(express.json())
  *       description: Pedido no confirmado
  *      
  */
- router.put("/:orderId",controller.UpdateStatus)
+ router.put("/:orderId",authenticated,controller.confirmOrder)
   
 //historial de pedidos de usuario
 /**
@@ -278,7 +278,7 @@ router.use(express.json())
  *       400:
  *         description: No existen pedidos del usuario indicado
  */
- router.get("/:userId",controller.List)
+ router.get("/:userId",authenticated,controller.List)
    
  
 //editar estado de pedido
@@ -330,21 +330,9 @@ router.use(express.json())
  *       description: Estado del pedido no modificado
  *      
  */
- /*router.put("/:orderId/:index/status",isLogged,isAdmin,(req,res)=>{
+ router.put("/:orderId",authenticated,controller.UpdateStatus);
 
-    let orderId= req.params.orderId;
-    let order= orderModule.orders[orderId];
-    let status=req.body.status;
-    
-    if (status == "pendiente"|| status == "confirmado" || status == "enPreparacion" || status =="enviado"|| status =="entregado"){
-      order.status=status;
-      res.json(order);
-    }
-    else{res.json({error:`No se puede actualizar estado-Estado inválido`})
-      
-      res.json(order);
-    }
-  });*/
+   
 
   module.exports = router;
    

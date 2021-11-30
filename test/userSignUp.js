@@ -40,7 +40,8 @@ describe("Test API Register", () => {
           "userName": "agus@gmail.com",
           "password": "nusa",
           "phone": "61835128",
-          "adress": "allende 123"
+          "adress": "allende 123",
+          "admin":false
         }),
       })
       .then(responseApi => responseApi.json())
@@ -66,7 +67,8 @@ describe("Test API Register", () => {
           "userName": "agus@gmail.com",
           "password": "sanLorenzo",
           "phone": "61835128",
-          "adress": "Santo Tome 4749"
+          "adress": "Santo Tome 4749",
+          "admin":false
         }),
       })
       .then(responseApi => responseApi.json())

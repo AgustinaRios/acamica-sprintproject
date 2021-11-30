@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const paymentModule = require('../models/payment'); 
 const orderModule = require ('../models/orders'); 
-const {isLogged,isAdmin} = require('../middleware');
+const {isAdmin, authenticated} = require('../middleware');
 const controller = require('../controllers/payment') 
 router.use(express.json())
 
@@ -26,7 +26,7 @@ router.use(express.json())
  *       200:
  *         description: Listado de medios de pago
  */
- router.get("/:index",controller.List);
+ router.get("/",authenticated,isAdmin,controller.List);
 
 
 //Agregar métodos de pago
@@ -66,7 +66,7 @@ router.use(express.json())
  *       description: Método de pago no creado
  *      
  */
- router.post("/",controller.Add);
+ router.post("/",authenticated,controller.Add);
    
    
 
@@ -107,10 +107,10 @@ router.use(express.json())
  *       description: No se ha podido eliminar el método de pago
  *      
  */
- router.delete("/:id",controller.Delete)
+ router.delete("/",authenticated,controller.Delete)
 
 
 
-router.put("/:id",controller.Update)
+router.put("/",authenticated,controller.Update)
 
 module.exports = router;  

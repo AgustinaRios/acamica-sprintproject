@@ -1,10 +1,8 @@
 const express = require('express');
-const router = express.Router();
-const productModule = require('../models/product') //Cargo todo lo que tengo en /models/users en la variable userModule para poder utilizar todo aqui.
-const orderModule = require ('../models/orders'); //Idem al punto de arriba pero con orders
-const {authenticated} = require('../middleware') //importo las funciones que estan en middlesares/users
-const controller = require('../controllers/product')
-router.use(express.json())
+const router = express.Router(); 
+const {authenticated} = require('../middleware');
+const controller = require('../controllers/product');
+router.use(express.json());
 
 
  //listado de productos
@@ -12,34 +10,29 @@ router.use(express.json())
  * @swagger
  * /products:
  *   get:
- *     summary: Get all products (Only Admins).
+ *     summary: Obtener listado de productos.
  *     tags: [products]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       "200":
- *         description: All products
+ *         description: Listado de productos
  */ 
  router.get("/",authenticated,controller.List)
 
 //obtener producto con id
 /**
 * @swagger
-* /products/{index}/{id}:
+* /products/{id}:
 *  get:
 *    tags: [products]
-*    summary: Obtener producto por índice.
-*    description : Obtener producto por índice.
+*    security:
+*      - bearerAuth: []
+*    summary: Obtener producto por id.
+*    description : Obtener producto por id.
 *    consumes:
 *      - application/json
 *    parameters:
-*      - in: path
-*        name: index
-*        required: true
-*        description: Index del usuario logueado.
-*        schema:
-*          type: integer
-*          example: 1
 *      - in: path
 *        name: id
 *        description: id del producto a obtener
@@ -59,18 +52,9 @@ router.use(express.json())
 *       description: Producto no existe
 *      
 */
-/*router.get("/:index/:id",isLogged,(req,res)=>{
+router.get("/:id",authenticated,controller.GetProduct)
 
-let id=req.params.id;
-for (let i=0;i<productModule.products.length;i++){
-  if (id==productModule.products[i].id){
-    let product=productModule.products[i]
-    res.json(product)
-  }
-}
-return res.json({resultado:`producto inválido`}).status(400);
 
-});*/
 
 //Agregado de productos 
 /**
@@ -119,7 +103,7 @@ return res.json({resultado:`producto inválido`}).status(400);
  *       description: Producto no creado
  *      
  */
- router.post("/",controller.Add)
+ router.post("/",authenticated,controller.Add)
   
   
        
@@ -165,7 +149,7 @@ return res.json({resultado:`producto inválido`}).status(400);
  *       description: No se ha podido eliminar el producto
  *      
  */
- router.delete("/:id",controller.Delete)
+ router.delete("/:id",authenticated,controller.Delete)
  
 
 //editar productos con código
@@ -217,7 +201,7 @@ return res.json({resultado:`producto inválido`}).status(400);
  *       description: Producto no actualizado
  *      
  */
- router.put("/:id",controller.Update)
+ router.put("/:id",authenticated,controller.Update)
 
 
 module.exports = router;

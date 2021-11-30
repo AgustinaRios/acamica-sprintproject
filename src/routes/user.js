@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 const userModule = require('../models/user') //Cargo todo lo que tengo en /models/users en la variable userModule para poder utilizar todo aqui.
 const orderModule = require ('../models/orders'); //Idem al punto de arriba pero con orders
-const {isLogged,isAdmin} = require('../middleware') //importo las funciones que estan en middlesares/users
+const {isLogged,isAdmin, authenticated} = require('../middleware') //importo las funciones que estan en middlesares/users
 const controller = require('../controllers/user')
 router.use(express.json())
 
 
 /**
  * @swagger
- * /signup:
+ * /users/signup:
  *  post:
  *    tags: [users]
  *    summary: Creacion de usuario.
@@ -30,6 +30,7 @@ router.use(express.json())
  *            - password
  *            - phone
  *            - adress
+ *            - admin
  *          properties:
  *            name:
  *              description: Nombre del usuario
@@ -59,6 +60,10 @@ router.use(express.json())
  *              description: direccion de usuario
  *              type: string
  *              example: santo tome 4749
+ *            admin:
+ *              description: administrador
+ *              type: boolean
+ *              example: false
  *    responses:
  *      201:
  *       description: Usuario registrado
@@ -120,7 +125,7 @@ router.use(express.json())
    *       200:
    *         description: Listado de usuarios
    */
-   router.get('/',controller.List);
+   router.get('/',authenticated,controller.List);
  
   
 module.exports = router;  

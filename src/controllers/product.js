@@ -60,6 +60,7 @@ exports.Update = async function (req,res,next){
       const resultado = await sequelize.query(cadena, { type: sequelize.QueryTypes.UPDATE });
       console.log(resultado)
       res.json(resultado);
+      redisClient.del('products');
   }
   catch (err) {
       console.log(err.message);
@@ -67,4 +68,17 @@ exports.Update = async function (req,res,next){
   };
 
 
+};
+
+exports.GetProduct = async function (req,res,next){
+try{
+  const product = await Product.findOne({ where :{ id:req.params.id }});
+  console.log(product);
+  res.send(product)
+}
+catch(err){
+  console.log(err.message);
+      res.status(500).json({ status: 'Error interno', texto: err.message});
+
+};
 };
