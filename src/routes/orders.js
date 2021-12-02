@@ -3,13 +3,14 @@ const router = express.Router();
 const paymentModule = require('../models/payment'); 
 const orderModule = require ('../models/orders');
 const userModule = require ('../models/user'); 
-const {isLogged,isAdmin,isOrderPendiente} = require('../middleware'); 
+const {isAdmin, authenticated} = require('../middleware'); 
+const controller = require('../controllers/order') 
 router.use(express.json())
 
 //crear pedido
 /**
  * @swagger
- * /orders/{index}:
+ * /orders:
  *  post:
  *    tags: [orders]
  *    summary: Creación de pedido.
@@ -17,35 +18,28 @@ router.use(express.json())
  *    consumes:
  *      - application/json
  *    parameters:
- *      - in: path
- *        name: index
- *        required: true
- *        description: Index del usuario logueado.
- *        schema:
- *          type: integer
- *          example: 1
  *      - in: body
  *        name: order
  *        description: orden generada por el usuario
  *        schema:
  *          type: object
  *          required:
+ *            - adress
  *            - userId
- *            - payment
- *            - adress      
+ *            - paymentId      
  *          properties:
+ *            adress:
+ *              description: direccion del usuario que realiza el pedido
+ *              type: string
+ *              example: Santo Tome 4749
  *            userId:
  *              description: id del usuario que realiza el pedido
  *              type: string
  *              example: 1
- *            payment:
- *              description: método de pago
+ *            paymentId:
+ *              description: id del método de pago elegido
  *              type: string
- *              example: cash
- *            adress:
- *              description: dirección de entrega del pedido
- *              type: string
- *              example: santo tome 4749
+ *              example: 1
  *    responses:
  *      200:
  *       description: Pedido creado con éxito
@@ -53,56 +47,34 @@ router.use(express.json())
  *       description: No se pudo generar pedido 
  *      
  */
- router.post("/orders/:index",isLogged,(req,res)=>{
+ router.post("/",authenticated,controller.Add);
       
-    let userId= req.params.index;
-    let payment=req.body.payment;
-    let adress= req.body.adress;
-
-    if (!adress){adress=userModule.users[index].adress}
-
-    let order01= new orderModule.Order (userId,payment,adress);
-
-    orderModule.orders.push(order01);
    
-    
-    console.log(orderModule.orders)
-    res.json(order01);
-
-});
-
 //Listado de ordenes
 /**
  * @swagger
- * /orders/{index}:
+ * /orders:
  *  get:
  *    tags: [orders]    
  *    summary: Listado de pedidos
  *    description: Listado de pedidos realizados por usuarios
  *    parameters:
- *       - in: path
- *         name: index
- *         required: true
- *         description: Index del usuario logueado.
- *         schema:
- *           type: integer
- *           example: 1
  *    responses:
  *       200:
  *         description: Listado de pedidos
  */
- router.get("/orders/:index",isLogged,isAdmin,(req,res)=>{
+ router.get("/",authenticated,isAdmin,controller.List)
     
-    res.json(orderModule.orders);   
-});
+      
+
 
 //agregado de producto
 /**
  * @swagger
- * /orders/{orderId}/products/{productId}/{index}:
+ * /orders/{orderId}/{productId}:
  *  put:
  *    tags: [orders]
- *    summary: Agredado de productos al pedido.
+ *    summary: Agregado de productos al pedido.
  *    description : Se agregan al pedido los productos seleccionados por el usuario.
  *    consumes:
  *      - application/json
@@ -120,30 +92,6 @@ router.use(express.json())
  *        description: ID del producto a agregar
  *        schema:
  *          type: integer
- *      - in: path
- *        name: index
- *        required: true
- *        description: Index del usuario logueado
- *        schema:
- *          type: integer
- *          example: 1
- *      - in: body
- *        name: product
- *        description: producto a agregar
- *        schema:
- *          type: object
- *          required:
- *            - productId
- *            - orderId
- *          properties:
- *            productId:
- *              description: Id del producto a agregar
- *              type: string
- *              example: 1 
- *            orderId:
- *              description: Id del pedido al que se agregará el producto 
- *              type: string
- *              example: 0
  *    responses:
  *      200:
  *       description: Pedido modificado
@@ -152,31 +100,12 @@ router.use(express.json())
  *      
  */
 
- router.put("/orders/:orderId/products/:productId/:index",isLogged,isOrderPendiente,(req,res)=>{
- 
-    let orderId= req.params.orderId;
-    let productId=req.params.productId;
-  
-    let product=productModule.products[productId];
-    let order=orderModule.orders[orderId];
-  
-    if (typeof order == "undefined")
-      res.json({error:`orden no existe`});
-  
-    if (typeof product == "undefined")
-      res.json({error:`producto no existe`});
-  
-  
-    orderModule.addProduct(orderId,product,product.price);
-  
-  
-    res.json({resultado:`producto agregado correctamente`});
-  });
+ router.put("/:orderId/:productId",authenticated,controller.AddProduct)
 
 //eliminar producto de pedido
 /**
  * @swagger
- * /orders/{orderId}/products/{productId}/{index}:
+ * /orders/{orderId}/{productId}:
  *  delete:
  *    tags: [orders]
  *    summary: Eliminar de productos al pedido.
@@ -190,37 +119,14 @@ router.use(express.json())
  *        description: Id del pedido.
  *        schema:
  *          type: integer
- *          example: 0 
+ *          example: 1
  *      - in: path
  *        name: productId
  *        required: true
  *        description: ID del producto a anular
  *        schema:
  *          type: integer
- *      - in: path
- *        name: index
- *        required: true
- *        description: Index del usuario logueado
- *        schema:
- *          type: integer
  *          example: 1
- *      - in: body
- *        name: product
- *        description: producto a agregar
- *        schema:
- *          type: object
- *          required:
- *            - productId
- *            - orderId
- *          properties:
- *            productId:
- *              description: Id del producto a agregar
- *              type: string
- *              example: 1 
- *            orderId:
- *              description: Id del pedido al que se agregará el producto 
- *              type: string
- *              example: 0
  *    responses:
  *      200:
  *       description: Pedido modificado
@@ -228,30 +134,13 @@ router.use(express.json())
  *       description: Pedido no modificado
  *      
  */
- router.delete("/orders/:orderId/products/:productId/:index",isLogged,isOrderPendiente,(req,res)=>{
-    let orderId= req.params.orderId;
-    let productId=req.params.productId;
+ router.delete("/:orderId/:productId",authenticated,controller.DeleteProduct);
   
-    let product=productModule.products[productId];
-    let order=orderModule.orders[orderId];
-  
-    if (typeof order == "undefined")
-      res.json({error:`orden no existe`});
-  
-    if (typeof product == "undefined")
-      res.json({error:`producto no existe`});
-  
-  
-     orderModule.removeProduct(orderId,product,product.price);
-  
-  
-      res.json({resultado:`producto eliminado correctamente`});
-  });
-  
+ 
 //confirmación de orden por parte del usuario
 /**
  * @swagger
- * /orders/{orderId}/{index}/confirmed:
+ * /orders/{orderId}:
  *  put:
  *    tags: [orders]
  *    summary: Confirmación de pedido.
@@ -265,26 +154,14 @@ router.use(express.json())
  *        description: Id del pedido a confirmar.
  *        schema:
  *          type: integer
- *          example: 0 
- *      - in: path
- *        name: index 
- *        required: true
- *        description: Index del usuario logueado.
- *        schema:
- *          type: integer
  *          example: 1 
  *      - in: body
- *        name: order
- *        description: pedido a confirmar
+ *        name: orderStatus
+ *        required: true
+ *        description: Id del pedido a confirmar.
  *        schema:
- *          type: object
- *          required:
- *            - orderId
- *          properties:
- *            orderId:
- *              description: id del pedido a confirmar
- *              type: string
- *              example: 0
+ *          type: string
+ *          example: confirmado 
  *    responses:
  *      200:
  *       description: Pedido confirmado
@@ -292,26 +169,12 @@ router.use(express.json())
  *       description: Pedido no confirmado
  *      
  */
- router.put("/orders/:orderId/:index/confirmed",isLogged,(req,res)=>{
-       
-    let orderId = req.params.orderId
-  
-    let order=orderModule.orders[orderId];
-  
-    if (typeof order==undefined){
-      res.json({error:`orden no existe`})
-    }
-    else{
-      order.status="confirmado";
-      res.json(order);
-    }
-   
-  });
+ router.put("/:orderId",authenticated,controller.confirmOrder)
   
 //historial de pedidos de usuario
 /**
  * @swagger
- * /users/{index}/orders:
+ * /orders/{userId}:
  *  get:
  *    tags: [users]    
  *    summary: Historial de pedidos de usuario
@@ -342,26 +205,13 @@ router.use(express.json())
  *       400:
  *         description: No existen pedidos del usuario indicado
  */
- router.get("/users/:index/orders",isLogged,(req,res)=>{
+ router.get("/:userId",authenticated,controller.ListById)
    
-    let userId= req.params.index
-    let ordersUser=orderModule.orders.filter( o => (o.userId==userId));
- 
-    if (!ordersUser){
-      res.json({error:`No existen pedidos del usuario indicado`})
-     }
-   else{
-     res.json(ordersUser)
-   };
-    
- 
-   
- });
  
 //editar estado de pedido
 /**
  * @swagger
- * /orders/{orderId}/{index}/status:
+ * /orders/{orderId}/status:
  *  put:
  *    tags: [orders]
  *    summary: Cambiar estado del pedido.
@@ -377,27 +227,22 @@ router.use(express.json())
  *          type: integer
  *          example: 0 
  *      - in: path
- *        name: index 
+ *        name: orderId
  *        required: true
- *        description: Index del usuario logueado.
+ *        description: Id del pedido a modificar
  *        schema:
  *          type: integer
- *          example: 3 
+ *          example: 1 
  *      - in: body
  *        name: order
  *        description: pedido a modificar
  *        schema:
  *          type: object
  *          required:
- *            - orderId
  *            - status
  *          properties:
- *            orderId:
- *              description: id del pedido a confirmar
- *              type: string
- *              example: 0
  *            status:
- *              description: status que adquirirá el pedido
+ *              description: estado que adoptará el pedido modificado
  *              type: string
  *              example: entregado
  *    responses:
@@ -407,21 +252,9 @@ router.use(express.json())
  *       description: Estado del pedido no modificado
  *      
  */
- router.put("/order/:orderId/:index/status",isLogged,isAdmin,(req,res)=>{
+ router.put("/:orderId",authenticated,isAdmin,controller.UpdateStatus);
 
-    let orderId= req.params.orderId;
-    let order= orderModule.orders[orderId];
-    let status=req.body.status;
-    
-    if (status == "pendiente"|| status == "confirmado" || status == "enPreparacion" || status =="enviado"|| status =="entregado"){
-      order.status=status;
-      res.json(order);
-    }
-    else{res.json({error:`No se puede actualizar estado-Estado inválido`})
-      
-      res.json(order);
-    }
-  });
+   
 
   module.exports = router;
    

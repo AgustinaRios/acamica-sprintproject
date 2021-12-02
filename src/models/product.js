@@ -1,4 +1,64 @@
-class Product{
+const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = require('../database/db')
+
+class Product extends Model {}
+
+Product.init({
+  // Model attributes are defined here
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  price: {
+    type: DataTypes.INTEGER
+    // allowNull defaults to true
+  },
+  enabled: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: sequelize.literal('NOW()')
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: sequelize.literal('NOW()')
+  }
+}, {
+  // Other model options go here
+  sequelize, // We need to pass the connection instance
+  modelName: 'Product' // We need to choose the model name
+});
+
+module.exports = Product;
+// the defined model is the class itself
+console.log(Product === sequelize.models.Product); // true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*class Product{
     constructor(name,price,id){
         this.name=name;
         this.price=price;
@@ -50,4 +110,4 @@ let product5= new Product('Beer',250,4,20,true);
 products.push(product5);
 
 
-module.exports={Product,products,create,remove,getProduct};
+module.exports={Product,products,create,remove,getProduct};*/

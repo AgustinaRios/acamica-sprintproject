@@ -1,53 +1,34 @@
 const express = require('express');
-const router = express.Router();
-const productModule = require('../models/product') //Cargo todo lo que tengo en /models/users en la variable userModule para poder utilizar todo aqui.
-const orderModule = require ('../models/orders'); //Idem al punto de arriba pero con orders
-const {isLogged,isAdmin} = require('../middleware') //importo las funciones que estan en middlesares/users
-router.use(express.json())
+const router = express.Router(); 
+const {authenticated,isAdmin} = require('../middleware');
+const controller = require('../controllers/product');
+router.use(express.json());
+
 
  //listado de productos
 /**
  * @swagger
- * /products/{index}:
- *  get:
- *    tags: [products]    
- *    summary: Lista de productos
- *    description: Listado de productos 
- *    parameters:
- *       - in: path
- *         name: index
- *         required: true
- *         description: Index del usuario logueado.
- *         schema:
- *           type: integer
- *           example: 1
- *    responses:
- *       200:
- *         description: Listado de usuarios
- */
- router.get("/products/:index",isLogged,(req,res)=>{
-
-    res.json(productModule.products).status(200).send({resultado:`listado de productos`});
-});
+ * /products:
+ *   get:
+ *     summary: Obtener listado de productos.
+ *     tags: [products]
+ *     responses:
+ *       "200":
+ *         description: Listado de productos
+ */ 
+ router.get("/",authenticated,controller.List)
 
 //obtener producto con id
 /**
 * @swagger
-* /product/{index}/{id}:
+* /products/{id}:
 *  get:
 *    tags: [products]
-*    summary: Obtener producto por índice.
-*    description : Obtener producto por índice.
+*    summary: Obtener producto por id.
+*    description : Obtener producto por id.
 *    consumes:
 *      - application/json
 *    parameters:
-*      - in: path
-*        name: index
-*        required: true
-*        description: Index del usuario logueado.
-*        schema:
-*          type: integer
-*          example: 1
 *      - in: path
 *        name: id
 *        description: id del producto a obtener
@@ -67,37 +48,21 @@ router.use(express.json())
 *       description: Producto no existe
 *      
 */
-router.get("/product/:index/:id",isLogged,(req,res)=>{
+router.get("/:id",authenticated,controller.GetProduct)
 
-let id=req.params.id;
-for (let i=0;i<productModule.products.length;i++){
-  if (id==productModule.products[i].id){
-    let product=productModule.products[i]
-    res.json(product)
-  }
-}
-return res.json({resultado:`producto inválido`}).status(400);
 
-});
 
 //Agregado de productos 
 /**
  * @swagger
- * /products/{index}:
+ * /products:
  *  post:
  *    tags: [products]
- *    summary: Creacion de productos.
+ *    summary: Agregado  de productos.
  *    description : Agregado de producto.
  *    consumes:
  *      - application/json
  *    parameters:
- *      - in: path
- *        name: index
- *        required: true
- *        description: Index del usuario logueado.
- *        schema:
- *          type: integer
- *          example: 1
  *      - in: body
  *        name: product
  *        description: producto a crear
@@ -106,7 +71,7 @@ return res.json({resultado:`producto inválido`}).status(400);
  *          required:
  *            - name
  *            - price
- *            - id         
+ *            - enabled         
  *          properties:
  *            name:
  *              description: nombre del producto
@@ -116,10 +81,10 @@ return res.json({resultado:`producto inválido`}).status(400);
  *              description: precio del producto
  *              type: float
  *              example: 400.50
- *            id:
- *              description: id del producto
- *              type: string
- *              example: 6
+ *            enabled:
+ *              description: condición de habilitado para la venta
+ *              type: boolean
+ *              example: true
  *    responses:
  *      201:
  *       description: Producto creado
@@ -127,36 +92,19 @@ return res.json({resultado:`producto inválido`}).status(400);
  *       description: Producto no creado
  *      
  */
- router.post("/products/:index",isLogged,isAdmin,(req,res)=>{
+ router.post("/",authenticated,isAdmin,controller.Add)
   
-    let name=req.body.name;
-    let price=req.body.price;
-    let id=req.body.id;
-   
+  
        
     
-    if (typeof name != "string"|| name==undefined){
-      return res.status(400).send({ resultado: `Nombre inválido`
-    })};
-
-    if (typeof price != "number"|| name==undefined){
-      return res.status(400).send({ resultado: `precio inválido`
-    })};
+   
     
     
     
-    let product = new productModule.Product(name,price,id);
-      productModule.create(product);
-
-
-      res.json(product);
-});
-
-
 //borrado lógico de producto
 /**
  * @swagger
- * /products/{index}/{id}:
+ * /products/{id}:
  *  delete:
  *    tags: [products]
  *    summary: Eliminación producto.
@@ -164,13 +112,6 @@ return res.json({resultado:`producto inválido`}).status(400);
  *    consumes:
  *      - application/json
  *    parameters:
- *      - in: path
- *        name: index
- *        required: true
- *        description: Index del usuario logueado.
- *        schema:
- *          type: integer
- *          example: 1
  *      - in: path
  *        name: id
  *        description: id del producto a eliminar
@@ -190,37 +131,19 @@ return res.json({resultado:`producto inválido`}).status(400);
  *       description: No se ha podido eliminar el producto
  *      
  */
- router.delete("/products/:index/:id",isLogged,isAdmin,(req,res)=>{
-    let id=req.params.id;
-    for (let i=0;i<productModule.products.length;i++){
-        if(id==productModule.products[i].id){
-          let product=productModule.products[i]
-          productModule.remove(product);
-          res.json(product).status(200).send({resultado:`producto inhabilitado para la venta correctamente`});
-        }
-      
-    }   
-    
-    });
+ router.delete("/:id",authenticated,isAdmin,controller.Delete)
+ 
 
 //editar productos con código
 /**
  * @swagger
- * /productos/{index}/{id}:
+ * /productos/{id}:
  *  put:
  *    tags: [products]
  *    summary: Editar producto.
  *    description : Actualización de datos de producto.
  *    consumes:
  *      - application/json
- *    parameters:
- *      - in: path
- *        name: index
- *        required: true
- *        description: Index del usuario logueado.
- *        schema:
- *          type: integer
- *          example: 1 
  *      - in: path
  *        name: id de producto
  *        required: true
@@ -252,19 +175,7 @@ return res.json({resultado:`producto inválido`}).status(400);
  *       description: Producto no actualizado
  *      
  */
- router.put("/products/:index/:id",isLogged,isAdmin,(req,res)=>{
-  
-    let id=req.params.id;
-    for (let i=0;i<productModule.products.length;i++){
-      if(id==productModule.products[i].id){
-        let product=productModule.products[i]
-         product.price=req.body.price
-         product.name=req.body.name
-        
-        res.json(product);
-      }};
-  
-  });
+ router.put("/:id",authenticated,isAdmin,controller.Update)
 
 
 module.exports = router;

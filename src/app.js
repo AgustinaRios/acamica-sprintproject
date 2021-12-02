@@ -1,17 +1,41 @@
 const express = require('express');
 const app = express();
-const swaggerJsDoc = require('swagger-jsdoc');
-
+const jwt = require("jsonwebtoken");
 const database = require('./database/db');
+const helmet = require('helmet');
+const association = require('./models/associations')
+const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 const swaggerOptions = {
     swaggerDefinition: {
+      openapi: "3.0.3",
       info: {
-        title: 'Sprint Project 1- Mi primera API',
-        version: '1.0.0'
-      }
+        title: "Sprint Project 2- Mi primera API",
+        version: "2.0.0",
+        description: "Sprint Project N. 2",
+      },
+    
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
     },
-    apis: ['./src/app.js'],
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
+  },
+    apis: ['./src/app.js', 
+    
+    './src/routes/user.js', 
+    './src/routes/product.js',
+    './src/routes/orders.js',
+    './src/routes/payment.js',],
     tags: [
       {
           name: 'users',
@@ -37,20 +61,18 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 
-/*const userModule = require('./models/user');
-const productModule=require('./models/product');
-const paymentModule=require('./models/payment');
-const orderModule=require('./models/orders');
-const{isLogged,isAdmin, isOrderPendiente}=require('./middleware');*/
-
   app.use('/api-docs',
    swaggerUI.serve,
    swaggerUI.setup(swaggerDocs));
 
-   
+  
+   app.use(helmet({
+    contentSecurityPolicy: true,
+  })); 
+
   app.use( express.json() );
 
-  app.listen(5000, () => console.log("listening on 5000"));
+  app.listen(process.env.PORT, () => console.log("listening on"+" "+ process.env.PORT));
 
 
 
@@ -64,3 +86,4 @@ const{isLogged,isAdmin, isOrderPendiente}=require('./middleware');*/
   app.use('/products',routerProducts);
   app.use('/paymentMethods',routerPaymentMethods);
   app.use('/orders',routerOrders)
+

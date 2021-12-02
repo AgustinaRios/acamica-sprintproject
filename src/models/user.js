@@ -1,4 +1,65 @@
-class User {
+const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = require('../database/db')
+
+class User extends Model {}
+
+User.init({
+  // Model attributes are defined here
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  surname: {
+    type: DataTypes.STRING,
+    allowNull: false
+    
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  userName: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  adress: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  admin: {
+    type: DataTypes.BOOLEAN,
+    allowNull: true,
+    defaultValue: false
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: sequelize.literal('NOW()')
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: sequelize.literal('NOW()')
+  }
+}, {
+  // Other model options go here
+  sequelize, // We need to pass the connection instance
+  modelName: 'User' // We need to choose the model name
+});
+
+module.exports = User;
+// the defined model is the class itself
+console.log(User === sequelize.models.User); // true
+
+
+
+/*class User {
     constructor(name,surname,userName,email,password,phone,adress,admin){
         this.name=name;
         this.surname=surname;
@@ -37,4 +98,4 @@ users.push(user2);
 users.push(user3);
 users.push(user4);
 
-module.exports={users,User,create,getUser};
+module.exports={users,User,create,getUser};*/

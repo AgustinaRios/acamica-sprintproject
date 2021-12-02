@@ -4,16 +4,29 @@
   "description": "Mi primera API documentada-Srint Project Nro 1-Acamica-Desarrollo Web Back End",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0"
+
+    "test": "mocha"
+
   },
   "author": "María Agustina Ríos Velázquez",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "fetch": "^1.1.0",
+    "helmet": "^4.6.0",
+    "jsonwebtoken": "^8.5.1",
     "mariadb": "^2.5.4",
+    "node-fetch": "^2.6.1",
+    "redis": "^3.1.2",
     "sequelize": "^6.6.5",
+    "swagger": "^0.7.5",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.1.3"
   }
 }

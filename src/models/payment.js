@@ -4,14 +4,22 @@ const sequelize = require('../database/db')
 class Payment extends Model {}
 
 Payment.init({
-  // Model attributes are defined here
+  
   name: {
     type: DataTypes.STRING,
     allowNull: false
   },
   enabled: {
     type: DataTypes.BOOLEAN
-    // allowNull defaults to true
+    
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: sequelize.literal('NOW()')
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: sequelize.literal('NOW()')
   }
 }, {
   // Other model options go here
