@@ -36,14 +36,23 @@ Módulos de Node.Js utilizados:
 Instrucciones de instalación:
 
 1-Crear carpeta para su instalación
-2-Ingresar a la carpeta creada y desde la consola ejecutar: git clone https://github.com/felipemoralesquerol/aca-sprint1-project
+
+2-Ingresar a la carpeta creada y desde la consola ejecutar: git clone https://github.com/AgustinaRios/acamica-sprintproject.git
+
 3-Ingresar a la carpeta acamica-sprintproject
+
 4-Ejecutar npm install.
+
 5-Copiar el archivo .env.example a .env
+
 6-Configurar las variables de entorno del archivo .env a su configuración
+
 7-(opcional) Ejecutar script sql ubicado en carpeta sql que contiene las sentencias de creación de base de datos y tablas.
+
 8-Chequear las dependencias utilizadas vía npm-check
+
 9-Arrancar el servidor ejecutando node o nodemon + src/app
+
 10-Ejecución de test ejecutando npm run test
 
 
