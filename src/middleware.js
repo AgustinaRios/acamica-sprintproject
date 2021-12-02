@@ -32,7 +32,7 @@ exports.authenticated = function authenticated(req,res,next){
 
   exports.isAdmin = function isAdmin(req, res, next){
       
-      if (req.authData.admin) {
+      if (req.authData.admin==true) {
         next();
       } else {
         console.error("Acceso denegado: ");

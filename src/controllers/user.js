@@ -7,15 +7,18 @@ require('dotenv').config();
 exports.signin = async function signin(req, res, next) {
     try {
       
-      const { userName, password} = req.body                                                                                                                                                                                                                                                                ;
+      const { userName, password,admin} = req.body
+      if(!admin||admin==undefined){
+        admin==false
+      }                                                                                                                                                                                                                                                     ;
       console.log("signin", userName, password);
       const user = await users.findOne({
-        where: { userName:userName, password:password },
+        where: { userName:userName },
       });
   
       if (!user) {
         console.log("Usuario no registrado");
-        res.status(400).send({status:"Error en login"});
+        res.status(400).send({status:"Usuario no registrado"});
       }
   
     else{
@@ -40,6 +43,8 @@ exports.signin = async function signin(req, res, next) {
   };
 
 
+
+
   exports.signup = async function signup(req, res, next) {
     try {
       cadena = `INSERT INTO users (name,surname,email,userName,password,phone,adress,admin)
@@ -56,9 +61,10 @@ exports.signin = async function signin(req, res, next) {
      else{
      
        
-        const resultado = await sequelize.query(cadena, { type: sequelize.QueryTypes.INSERT });
-        console.log(resultado)
-        console.log(req.body.password)
+      const resultado = await sequelize.query(cadena, { type: sequelize.QueryTypes.INSERT });
+      console.log(resultado)
+      console.log(req.body.password)
+      
      ;}
      jwt.sign(
       req.body,
@@ -68,19 +74,22 @@ exports.signin = async function signin(req, res, next) {
         if (err) {
           console.error("Error interno: " + err.message);
           res.status(500).send({ status: "Error interno" });
-        } else {
+        } 
           req.token = token;
-          res.json({ status: "signup", token });
-        }
+          res.status(201).send({ status: "signup", token });
+        
       }
     );
       
   }
   catch (err) {
-      console.log(err.message);
+      console.log(err.message,"datos faltantes");
       res.status(500).json({ status: 'Error' });
   }
 };
+
+
+
 
 
 

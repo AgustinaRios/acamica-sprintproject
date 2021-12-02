@@ -12,13 +12,11 @@ router.use(express.json());
  *   get:
  *     summary: Obtener listado de productos.
  *     tags: [products]
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       "200":
  *         description: Listado de productos
  */ 
- router.get("/",authenticated,isAdmin,controller.List)
+ router.get("/",authenticated,controller.List)
 
 //obtener producto con id
 /**
@@ -26,8 +24,6 @@ router.use(express.json());
 * /products/{id}:
 *  get:
 *    tags: [products]
-*    security:
-*      - bearerAuth: []
 *    summary: Obtener producto por id.
 *    description : Obtener producto por id.
 *    consumes:
@@ -59,21 +55,14 @@ router.get("/:id",authenticated,controller.GetProduct)
 //Agregado de productos 
 /**
  * @swagger
- * /products/{index}:
+ * /products:
  *  post:
  *    tags: [products]
- *    summary: Creacion de productos.
+ *    summary: Agregado  de productos.
  *    description : Agregado de producto.
  *    consumes:
  *      - application/json
  *    parameters:
- *      - in: path
- *        name: index
- *        required: true
- *        description: Index del usuario logueado.
- *        schema:
- *          type: integer
- *          example: 1
  *      - in: body
  *        name: product
  *        description: producto a crear
@@ -82,7 +71,7 @@ router.get("/:id",authenticated,controller.GetProduct)
  *          required:
  *            - name
  *            - price
- *            - id         
+ *            - enabled         
  *          properties:
  *            name:
  *              description: nombre del producto
@@ -92,10 +81,10 @@ router.get("/:id",authenticated,controller.GetProduct)
  *              description: precio del producto
  *              type: float
  *              example: 400.50
- *            id:
- *              description: id del producto
- *              type: string
- *              example: 6
+ *            enabled:
+ *              description: condición de habilitado para la venta
+ *              type: boolean
+ *              example: true
  *    responses:
  *      201:
  *       description: Producto creado
@@ -103,7 +92,7 @@ router.get("/:id",authenticated,controller.GetProduct)
  *       description: Producto no creado
  *      
  */
- router.post("/",authenticated,controller.Add)
+ router.post("/",authenticated,isAdmin,controller.Add)
   
   
        
@@ -124,13 +113,6 @@ router.get("/:id",authenticated,controller.GetProduct)
  *      - application/json
  *    parameters:
  *      - in: path
- *        name: index
- *        required: true
- *        description: Index del usuario logueado.
- *        schema:
- *          type: integer
- *          example: 1
- *      - in: path
  *        name: id
  *        description: id del producto a eliminar
  *        schema:
@@ -149,27 +131,19 @@ router.get("/:id",authenticated,controller.GetProduct)
  *       description: No se ha podido eliminar el producto
  *      
  */
- router.delete("/:id",authenticated,controller.Delete)
+ router.delete("/:id",authenticated,isAdmin,controller.Delete)
  
 
 //editar productos con código
 /**
  * @swagger
- * /productos/{index}/{id}:
+ * /productos/{id}:
  *  put:
  *    tags: [products]
  *    summary: Editar producto.
  *    description : Actualización de datos de producto.
  *    consumes:
  *      - application/json
- *    parameters:
- *      - in: path
- *        name: index
- *        required: true
- *        description: Index del usuario logueado.
- *        schema:
- *          type: integer
- *          example: 1 
  *      - in: path
  *        name: id de producto
  *        required: true
@@ -201,7 +175,7 @@ router.get("/:id",authenticated,controller.GetProduct)
  *       description: Producto no actualizado
  *      
  */
- router.put("/:id",authenticated,controller.Update)
+ router.put("/:id",authenticated,isAdmin,controller.Update)
 
 
 module.exports = router;

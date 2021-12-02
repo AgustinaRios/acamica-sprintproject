@@ -1,81 +1,83 @@
 const assert = require('chai').assert;
 const fetch = require('node-fetch');
-const url = 'http://localhost:5000/users';
+const urlAPI = 'http://localhost:5000/users';
 
-describe("Test API Register", () => {
+describe("", () => {
+  it("1.API Signup: Falla por faltante de datos", async () => {
+    await fetch(urlAPI + "/signup", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        "name": "datos",
+        "surname": "prueba"
+      }),
+    })
+    
+    .then(data =>{
 
-    it("1.Signup: creación fallida de usuario", async () => {
-      await fetch(url + "/signup", {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({
-          "name": "Leandro",
-          "surname": "Vallejos",
-          "email": "leandro@gmail.com",
-          "password": "violeta"
-        }),
-      })
-      .then(responseApi => responseApi.json())
-      .then(data =>{
-  
-          
-          assert.strictEqual(data.status, 500, 'One state expected: 500');
-      })
-    });
-  
-    it("2.Signup : Creación exitosa de usuario", async () => {
-      await fetch(url + "/signup", {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({
-          "name": "Agustina",
-          "surname": "Rios",
-          "email": "Agus",
-          "userName": "agus@gmail.com",
-          "password": "nusa",
-          "phone": "61835128",
-          "adress": "allende 123",
-          "admin":false
-        }),
-      })
-      .then(responseApi => responseApi.json())
-      .then(data =>{
-  
-         
-          assert.strictEqual(data.status, 201, 'One state expected: 201');
-          assert.exists(data.response.token, 'A token is expected in response');
-      })
-    });
-  
-    it("3.Signup : Email repetido", async () => {
-      await fetch(url + "/signup", {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({
-          "name": "Agustina",
-          "surname": "Rios",
-          "email": "Agus",
-          "userName": "agus@gmail.com",
-          "password": "sanLorenzo",
-          "phone": "61835128",
-          "adress": "Santo Tome 4749",
-          "admin":false
-        }),
-      })
-      .then(responseApi => responseApi.json())
-      .then(data =>{
-  
-          
-          assert.strictEqual(data.status, 400, 'One state expected: 400');
-      })
-    });
+        assert.strictEqual(data.status, 500, 'HttpStatus esperado: 500');
+    })
   });
+});
+
+
+describe("", (req,res) => {
+  it("2. API Signup : Creacion correcta de usuario", async () => {
+    await fetch(urlAPI + "/signup", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        "name": "Juan",
+        "surname": "Perez",
+        "email": "juan@gmail.com",
+        "userName": "juancito",
+        "password": 'rock',
+        "phone": '0821389231',
+        "adress": "allende 232",
+        "admin":false
+      }),
+    })
+    //.then(responseApi => responseApi.json())
+    .then(data =>{
+        assert.strictEqual(data.status, 400, 'HttpStatus esperado: 400');
+        
+    })
+  });
+});
+
+
+
+describe("", () => {
+  it("3.API Signup : Existing email", async () => {
+    await fetch(urlAPI + "/signup", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        "name": "admin",
+        "surname": "admin",
+        "email": "juan@gmail.com",
+        "userName":"Juance",
+        "password": "juanito",
+        "phone": '123456',
+        "adress": 'Santo tome 123',
+        "admin": false,
+        
+      }),
+    })
+   
+    .then(data =>{
+
+ 
+        assert.strictEqual(data.status, 400, 'HttpStatus esperado: 400');
+    })
+  });
+});

@@ -9,19 +9,11 @@ router.use(express.json())
 //Obtener lista de medios de pago
 /**
  * @swagger
- * /paymentMethods/{index}:
+ * /paymentMethods:
  *  get:
  *    tags: [payment]    
  *    summary: Listado de medios de pago
  *    description: Listado de medios disponibles para abonar la orden 
- *    parameters:
- *       - in: path
- *         name: index
- *         required: true
- *         description: Index del usuario logueado.
- *         schema:
- *           type: integer
- *           example: 1
  *    responses:
  *       200:
  *         description: Listado de medios de pago
@@ -32,7 +24,7 @@ router.use(express.json())
 //Agregar métodos de pago
 /**
  * @swagger
- * /paymentMethods/{index}:
+ * /paymentMethods:
  *  post:
  *    tags: [payment]
  *    summary: Creacion de método de pago.
@@ -40,12 +32,83 @@ router.use(express.json())
  *    consumes:
  *      - application/json
  *    parameters:
- *      - in: path
- *        name: index
- *        required: true
- *        description: Index del usuario logueado.
+ *      - in: body
+ *        name: paymentMethod
+ *        description: método de pago a crear
  *        schema:
- *          type: integer
+ *          type: object
+ *          required:
+ *            - name
+ *            - enabled      
+ *          properties:
+ *            name:
+ *              description: nombre del método de pago
+ *              type: string
+ *              example: mercado pago
+ *            enabled:
+ *              description: condición de habilitado para la venta
+ *              type: boolean
+ *              example: true
+ *    responses:
+ *      200:
+ *       description: Método de pago creado
+ *      400:
+ *       description: Método de pago no creado
+ *      
+ */
+ router.post("/",authenticated,controller.Add);
+   
+   
+
+//borrado de método de pago
+/**
+ * @swagger
+ * /paymentMethods/{id}:
+ *  delete:
+ *    tags: [payment]
+ *    summary: Eliminación de método de pago.
+ *    description : Borrado lógico de método de pago.
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - in: path
+ *        name: método de pago
+ *        description: id del método de pago a eliminar
+ *        schema:
+ *          type: object
+ *          required:
+ *            - id         
+ *          properties:
+ *            id:
+ *              description: id del método de pago a eliminar
+ *              type: integer
+ *              example: 1
+ *    responses:
+ *      200:
+ *       description: Método de pago eliminado
+ *      400:
+ *       description: No se ha podido eliminar el método de pago
+ *      
+ */
+ router.delete("/",authenticated,controller.Delete)
+
+
+/**
+ * @swagger
+ * /paymentMethods/:
+ *  put:
+ *    tags: [payment]
+ *    summary: Edicion de método de pago.
+ *    description : Edición de método de pago.
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - in: path
+ *        name: id de metodo de pago
+ *        required: true
+ *        description: Código de metodo de pago a editar.
+ *        schema:
+ *          type: string
  *          example: 1
  *      - in: body
  *        name: paymentMethod
@@ -58,59 +121,14 @@ router.use(express.json())
  *            name:
  *              description: nombre del método de pago
  *              type: string
- *              example: mercado pago
+ *              example: Transferencia Bancaria
  *    responses:
  *      200:
  *       description: Método de pago creado
  *      400:
  *       description: Método de pago no creado
  *      
- */
- router.post("/",authenticated,controller.Add);
-   
-   
-
-//borrado lógico de método de pago
-/**
- * @swagger
- * /paymentMethods/{id}:
- *  delete:
- *    tags: [payment]
- *    summary: Eliminación de método de pago.
- *    description : Borrado lógico de método de pago.
- *    consumes:
- *      - application/json
- *    parameters:
- *      - in: path
- *        name: index
- *        required: true
- *        description: Index del usuario logueado.
- *        schema:
- *          type: integer
- *          example: 1
- *      - in: body
- *        name: método de pago
- *        description: nombre del método de pago a eliminar
- *        schema:
- *          type: object
- *          required:
- *            - name         
- *          properties:
- *            name:
- *              description: nombre del método de pago a eliminar
- *              type: string
- *              example: QR
- *    responses:
- *      200:
- *       description: Método de pago eliminado
- *      400:
- *       description: No se ha podido eliminar el método de pago
- *      
- */
- router.delete("/",authenticated,controller.Delete)
-
-
-
-router.put("/",authenticated,controller.Update)
+ */ 
+router.put("/:id",authenticated,controller.Update)
 
 module.exports = router;  

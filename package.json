@@ -19,6 +19,7 @@
     "node-fetch": "^2.6.1",
     "redis": "^3.1.2",
     "sequelize": "^6.6.5",
+    "swagger": "^0.7.5",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6"
   },

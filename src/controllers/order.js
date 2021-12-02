@@ -4,6 +4,7 @@ const products = require("../models/product");
 const user = require("../models/user");
 const payments = require("../models/payment");
 const sequelize = require('../database/db');
+const Order = require("../models/orders");
 
 exports.Add = async function (req, res) {
   try {
@@ -66,11 +67,12 @@ exports.AddProduct = async function (req, res) {
 };
 
 exports.DeleteProduct = async function (req, res, next) {
+  
   try {
-      cadena = `DELETE FROM ordersproducts WHERE productId = ${req.params.productId}`;
+      cadena = `DELETE FROM ordersproducts WHERE orderId = ${req.params.orderId} and productId =  ${req.params.productId} `;
       console.log(cadena);
       const resultado = await sequelize.query(cadena, { type: sequelize.QueryTypes.DELETE });
-      console.log(cadena);
+      console.log(resultado);
       res.json(req.cadena);
   }
   catch (err) {
@@ -79,7 +81,7 @@ exports.DeleteProduct = async function (req, res, next) {
   }
 };
 
-exports.List = async function (req, res, next) {
+exports.ListById = async function (req, res, next) {
   try {
       const orders = await sequelize.query(`SELECT * FROM orders WHERE userId = ${req.params.userId}`, { type: sequelize.QueryTypes.SELECT });
       console.log(orders);
@@ -152,3 +154,18 @@ try{
     
       };
       };
+
+
+      exports.List = async function  (req, res) {
+        try {
+            //Con findAll busco todos los registros de la tabla, seria la sentencia SELECT
+          const orders = await Order.findAll();
+          console.log(orders);
+          res.send(orders);
+         
+        } catch (error) {
+          console.log(error);
+          res.status(500).send({ status: "Error interno" });
+        }
+      }
+      
