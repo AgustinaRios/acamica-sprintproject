@@ -67,7 +67,7 @@ exports.AddProduct = async function (req, res) {
 };
 
 exports.DeleteProduct = async function (req, res, next) {
-  
+
   try {
       cadena = `DELETE FROM ordersproducts WHERE orderId = ${req.params.orderId} and productId =  ${req.params.productId} `;
       console.log(cadena);
@@ -168,4 +168,3 @@ try{
           res.status(500).send({ status: "Error interno" });
         }
       }
-      

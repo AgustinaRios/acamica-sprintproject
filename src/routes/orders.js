@@ -100,7 +100,7 @@ router.use(express.json())
  *      
  */
 
- router.put("/:orderId/:productId",authenticated,controller.AddProduct)
+ router.put("/:orderId/:productId",authenticated,isAdmin,controller.AddProduct)
 
 //eliminar producto de pedido
 /**
