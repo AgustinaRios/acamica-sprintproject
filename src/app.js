@@ -82,8 +82,8 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
   const routerPaymentMethods = require('./routes/payment');
   const routerOrders = require('./routes/orders');
 
-  app.use('/users',routerUsers);
-  app.use('/products',routerProducts);
-  app.use('/paymentMethods',routerPaymentMethods);
-  app.use('/orders',routerOrders)
+  app.use('/api/v1/users',routerUsers);
+  app.use('/api/v1/products',routerProducts);
+  app.use('/api/v1/paymentMethods',routerPaymentMethods);
+  app.use('/api/v1/orders',routerOrders)
 

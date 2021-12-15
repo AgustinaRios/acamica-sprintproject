@@ -10,7 +10,7 @@ router.use(express.json())
 //crear pedido
 /**
  * @swagger
- * /orders:
+ * api/v1/orders:
  *  post:
  *    tags: [orders]
  *    summary: Creación de pedido.
@@ -53,7 +53,7 @@ router.use(express.json())
 //Listado de ordenes
 /**
  * @swagger
- * /orders:
+ * api/v1/orders:
  *  get:
  *    tags: [orders]    
  *    summary: Listado de pedidos
@@ -71,7 +71,7 @@ router.use(express.json())
 //agregado de producto
 /**
  * @swagger
- * /orders/{orderId}/{productId}:
+ * api/v1/orders/{orderId}/{productId}:
  *  put:
  *    tags: [orders]
  *    summary: Agregado de productos al pedido.
@@ -105,7 +105,7 @@ router.use(express.json())
 //eliminar producto de pedido
 /**
  * @swagger
- * /orders/{orderId}/{productId}:
+ * api/v1/orders/{orderId}/{productId}:
  *  delete:
  *    tags: [orders]
  *    summary: Eliminar de productos al pedido.
@@ -140,7 +140,7 @@ router.use(express.json())
 //confirmación de orden por parte del usuario
 /**
  * @swagger
- * /orders/{orderId}:
+ * api/v1/orders/{orderId}:
  *  put:
  *    tags: [orders]
  *    summary: Confirmación de pedido.
@@ -174,7 +174,7 @@ router.use(express.json())
 //historial de pedidos de usuario
 /**
  * @swagger
- * /orders/{userId}:
+ * api/v1/orders/{userId}:
  *  get:
  *    tags: [users]    
  *    summary: Historial de pedidos de usuario
@@ -211,7 +211,7 @@ router.use(express.json())
 //editar estado de pedido
 /**
  * @swagger
- * /orders/{orderId}/status:
+ * api/v1/orders/{orderId}/status:
  *  put:
  *    tags: [orders]
  *    summary: Cambiar estado del pedido.
