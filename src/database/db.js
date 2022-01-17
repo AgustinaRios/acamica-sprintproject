@@ -7,7 +7,7 @@ const { Sequelize } = require('sequelize');
 // TODO: Externalizar las options
 const sequelize = new Sequelize(process.env.MYSQL_DB_NAME, process.env.MYSQL_USER, process.env.MYSQL_PASSWORD, {
     host: process.env.MYSQL_HOST,
-    dialect: "mariadb",
+    dialect: process.env.MYSQL_DIALECT,
     logging: false,
     //logging: console.log,
     //logging: (...msg) => console.log(msg)

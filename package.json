@@ -16,9 +16,10 @@
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
     "mariadb": "^2.5.4",
+    "mysql2": "^2.3.3",
     "node-fetch": "^2.6.1",
     "redis": "^3.1.2",
-    "sequelize": "^6.6.5",
+    "sequelize": "^6.12.4",
     "swagger": "^0.7.5",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6"
