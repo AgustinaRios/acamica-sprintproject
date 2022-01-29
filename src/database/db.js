@@ -1,4 +1,4 @@
-require('dotenv').config();
+//require('dotenv').config();
 
 const { Sequelize } = require('sequelize');
 // https://sequelize.org/master/manual/getting-started.html
@@ -8,7 +8,7 @@ const { Sequelize } = require('sequelize');
 const sequelize = new Sequelize(process.env.MYSQL_DB_NAME, process.env.MYSQL_USER, process.env.MYSQL_PASSWORD, {
     host: process.env.MYSQL_HOST,
     dialect: process.env.MYSQL_DIALECT,
-    logging: false,
+    //logging: false,
     //logging: console.log,
     //logging: (...msg) => console.log(msg)
 
