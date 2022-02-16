@@ -16,7 +16,7 @@ router.use(express.json());
  *       "200":
  *         description: Listado de productos
  */ 
- router.get("/",authenticated,controller.List)
+ router.get("/",controller.List)
 
 //obtener producto con id
 /**

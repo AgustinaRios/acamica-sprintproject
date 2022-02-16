@@ -121,5 +121,10 @@ router.use(express.json());
  */
    router.get('/',authenticated,isAdmin,controller.List);
  
+
+   router.get('/token',(req,res)=>{
+     console.log(req.user)
+     res.json(req.user)
+   })
   
 module.exports = router;  

@@ -4,7 +4,11 @@ const app = express();
 const jwt = require("jsonwebtoken");
 const database = require('./database/db');
 const helmet = require('helmet');
-const association = require('./models/associations')
+const passport = require('passport');
+const association = require('./models/associations');
+const auth0 = require('./auth/auth0');
+const cors = require ('cors');
+const session = require('express-session'); 
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 const swaggerOptions = {
@@ -72,6 +76,21 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
   })); 
 
   app.use( express.json() );
+  passport.serializeUser(function(user,done){
+    done(null,user);
+  });
+
+  passport.deserializeUser(function(user,done){
+    done(null,user);
+  });
+
+  app.use(cors())
+  app.use(session({
+    secret: 'mi-secreto'
+  }))
+  app.use(passport.initialize())
+  app.use(passport.session())
+
 
   app.listen(process.env.PORT, () => console.log("listening on"+" "+ process.env.PORT));
 
@@ -82,9 +101,16 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
   const routerProducts = require('./routes/product');
   const routerPaymentMethods = require('./routes/payment');
   const routerOrders = require('./routes/orders');
+  
 
+  
   app.use('/api/v1/users',routerUsers);
   app.use('/api/v1/products',routerProducts);
   app.use('/api/v1/paymentMethods',routerPaymentMethods);
   app.use('/api/v1/orders',routerOrders)
+  app.use('/api/v1',auth0)
+  app.get('/api/v1',(req,res)=>{
 
+    console.log('api version 1')
+    res.status(200).json('api v1')
+  })
